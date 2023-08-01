@@ -76,3 +76,64 @@ function main(n, m, start_x, start_y) {
 }
 
 console.log("\nMax length = ", main(1000, 1000));
+
+/*
+#         6
+#      /     \
+#     7       8
+#    / \     / \
+#   2   7   1   3
+#  /   / \       \
+# 9   1   4       5
+#write the java function that sum of node has grandparent, and the grandparent must be even number.
+#answer of above code is 2 + 7 + 1 + 3 + 5
+ */
+
+public class Node {
+  int value;
+  Node left;
+  Node right;
+
+  Node(int value) {
+    this.value = value;
+    left = null;
+    right = null;
+  }
+}
+
+// method to only include grandchildren of even-valued grandparents
+public int sumGrandchildrenOfEven(Node node) {
+  if (node == null) {
+    return 0;
+  }
+
+  int sum = 0;
+
+  // If node value is even and node has grandchild, add grandchild's values to sum
+  if (node.value % 2 == 0) {
+    if (node.left != null) {
+      if (node.left.left != null) {
+        sum += node.left.left.value;
+      }
+      if (node.left.right != null) {
+        sum += node.left.right.value;
+      }
+    }
+
+    if (node.right != null) {
+      if (node.right.left != null) {
+        sum += node.right.left.value;
+      }
+      if (node.right.right != null) {
+        sum += node.right.right.value;
+      }
+    }
+  }
+
+  // Recursively process left and right subtrees
+  sum += sumGrandchildrenOfEven(node.left);
+  sum += sumGrandchildrenOfEven(node.right);
+
+  return sum;
+}
+
